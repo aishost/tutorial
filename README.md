@@ -1,32 +1,3 @@
-
-
-Установка Django:
-
-pip install django
-#https://django-crispy-forms.readthedocs.io/en/latest/install.html
-
-pip install django-crispy-forms==1.1.13
-
-#https://github.com/un1t/django-cleanup
-
-pip install django-cleanup==5.2.0
-
-pip install pillow
-
-https://pypi.org/project/django-ckeditor/
-
-pip install django-ckeditor
-
-#https://channels.readthedocs.io/en/stable/installation.html
-
-python -m pip install -U channels
-
-#https://django-allauth.readthedocs.io/en/latest/installation.html
-pip install django-allauth
-
-
-https://pypi.org/project/python-dotenv/
-pip install python-dotenv
-
-#https://django-braces.readthedocs.io/en/latest/
-pip install django-braces
+## Проект Тестовый
+    Посмотреть инструкции можно в папке `helper`
+    
