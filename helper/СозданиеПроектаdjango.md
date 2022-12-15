@@ -1,8 +1,8 @@
-#Установка Django:
+## Установка Django:
     pip install django
 
-#Создание приложения:
-    django-admin craete
+## Создание приложения:
+    django-admin startproject Название проекта
 
-#Супер пользователь:
+## Супер пользователь:
     python3 manage.py createsuperuser
