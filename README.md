@@ -1,4 +1,4 @@
 # Проект Тестовый
     
->Посмотреть инструкции можно в папке [helper](https://pages.github.com/)
+>Посмотреть инструкции можно в папке [helper](/tutorial/tree/main/helper)
     
