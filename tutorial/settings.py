@@ -30,6 +30,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# django-debug-toolbar
+
 
 
 # Application definition
@@ -41,20 +43,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "debug_toolbar",# django-debug-toolbar
+    'django.contrib.humanize',# https://docs.djangoproject.com/en/4.0/ref/contrib/humanize/
     'blog.apps.BlogConfig', # когда применяете сигналы, метки
-    #https://github.com/un1t/django-cleanup
-    'django_cleanup.apps.CleanupConfig',
+    'django_cleanup.apps.CleanupConfig',#https://github.com/un1t/django-cleanup
     'crispy_forms',
     'ckeditor',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
-    
-     # pascages install
+    #'channels',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.telegram',
+     'django_extensions',
+    
 ]
 
 MIDDLEWARE = [
@@ -65,10 +68,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # django-debug-toolbar
 ]
 
 ROOT_URLCONF = 'tutorial.urls'
-SITE_ID = 1
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -84,13 +94,42 @@ TEMPLATES = [
         },
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
+     'telegram': {
+        'TOKEN': 'insert-token-received-from-botfather'
+    },
+}
 
 WSGI_APPLICATION = 'tutorial.wsgi.application'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
 #django-crispy-forms
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html
 
@@ -111,23 +150,25 @@ CKEDITOR_CONFIGS = {
 }
 
 # End django-ckeditor
+# django-channels
+"""
+ASGI_APPLICATION = "practice_django.routing.application"
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
+CHANNEL_LAYERS = {
+    "default":{
+        "BACKEND":"channels.layers.InMemoryChannelLayer"
     },
-    'github': {
-        'SCOPE': [
-            'user',
-            'repo',
-            'read:org',
-        ],
+}
+"""
+
+# End django-channels
+# Database
+# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -168,7 +209,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#static-root
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 STATICFILES_DIRS = [
@@ -193,3 +234,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')     
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS') 
+
+# End Email
+GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv("GOOGLE_RECAPTCHA_SECRET_KEY")
+# messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+}
+# End messages
