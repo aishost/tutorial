@@ -46,6 +46,15 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'ckeditor',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
+    
+     # pascages install
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',ç
 ]
 
 MIDDLEWARE = [
@@ -59,7 +68,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'tutorial.urls'
-
+SITE_ID = 1
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -78,6 +87,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tutorial.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 #django-crispy-forms
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html
 
@@ -98,7 +111,26 @@ CKEDITOR_CONFIGS = {
 }
 
 # End django-ckeditor
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
 
+}
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
