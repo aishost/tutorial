@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0_ivq)h%cn8(c_ueqxc!1k7n)wrv%beyl)!ftx=8j4)9#-_^g+'
-
+#SECRET_KEY = 'django-insecure-0_ivq)h%cn8(c_ueqxc!1k7n)wrv%beyl)!ftx=8j4)9#-_^g+'
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
+    'blog.apps.BlogConfig', # когда применяете сигналы, метки
+    #https://github.com/un1t/django-cleanup
+    'django_cleanup.apps.CleanupConfig',
+    'crispy_forms',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +78,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tutorial.wsgi.application'
 
+#django-crispy-forms
+# https://django-crispy-forms.readthedocs.io/en/latest/install.html
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'uni_form'
+
+# End django-crispy-forms
+# Loading ENV
+env_path = Path('.') / '.env'
+
+#env_path = '.test.env'
+load_dotenv(dotenv_path=env_path)
+# django-ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width':'auto',
+    },
+}
+
+# End django-ckeditor
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
