@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "debug_toolbar",# django-debug-toolbar
     'django.contrib.humanize',# https://docs.djangoproject.com/en/4.0/ref/contrib/humanize/
-    'blog.apps.BlogConfig', # когда применяете сигналы, метки
+    'panel.apps.PanelConfig', # когда применяете сигналы, метки
     'django_cleanup.apps.CleanupConfig',#https://github.com/un1t/django-cleanup
     'crispy_forms',
     'ckeditor',
@@ -254,3 +254,6 @@ MESSAGE_TAGS = {
         messages.ERROR: 'alert-danger',
 }
 # End messages
+# в производстве убрать
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+
