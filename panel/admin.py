@@ -6,3 +6,4 @@ from panel.models import Iteam
 @admin.register(Iteam)
 class PageAdmin(admin.ModelAdmin):
     list_display = ['title',]
+    prepopulated_fields = {'slug': ('title',)}
